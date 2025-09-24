@@ -114,10 +114,16 @@
       }
     },
     openLightBox(element, lightboxId) {
-      $(`#${lightboxId}`)
-        .find(".lightboxImage")
-        .attr("src", element.attr("src"));
-      $(`#${lightboxId}`).modal("toggle");
+      const id = lightboxId || "galleryLightbox";   // fallback cohérent avec createLightBox
+      const modalEl = document.getElementById(id);
+      if (!modalEl) return;
+
+      // Met l'image cliquée dans la modale
+      modalEl.querySelector(".lightboxImage").setAttribute("src", element.attr("src"));
+
+      // API Bootstrap 5 (plus de $.modal)
+      const modal = bootstrap.Modal.getOrCreateInstance(modalEl);
+      modal.show();
     },
     prevImage() {
       let activeImage = null;
